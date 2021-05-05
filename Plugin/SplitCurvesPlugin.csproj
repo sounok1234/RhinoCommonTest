@@ -51,25 +51,22 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GH_IO">
+      <HintPath>C:\Program Files\Rhino 7\Plug-ins\Grasshopper\GH_IO.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Grasshopper">
+      <HintPath>C:\Program Files\Rhino 7\Plug-ins\Grasshopper\Grasshopper.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RhinoCommon">
+      <HintPath>C:\Program Files\Rhino 7\System\RhinoCommon.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="RhinoCommon">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Rhino 6\System\rhinocommon.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Eto">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Rhino 6\System\Eto.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Rhino.UI">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Rhino 6\System\Rhino.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SplitCurveCommand.cs" />
@@ -95,6 +92,8 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>Copy "$(TargetPath)" "$(TargetDir)$(ProjectName).rhp"
+Erase "$(TargetPath)"
+Copy "$(TargetPath)" "$(TargetDir)$(ProjectName).dll"
 Erase "$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
