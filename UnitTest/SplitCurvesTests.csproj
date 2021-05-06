@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.3" />
-    <PackageReference Include="RhinoCommon" Version="7.5.21100.3001" />
+    <PackageReference Include="RhinoCommon" Version="7.4.21067.13001" />
     <PackageReference Include="UnitsNet" Version="4.89.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
