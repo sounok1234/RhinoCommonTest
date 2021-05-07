@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using SplitCurves.Lib;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -26,14 +27,14 @@ namespace SplitCurves.Component
 			  "Geometry", "Curves")
 		{
 		}
-
+		
 		/// <summary>
 		/// Registers all the input parameters for this component.
 		/// </summary>
 		protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
 		{
 		}
-
+		
 		/// <summary>
 		/// Registers all the output parameters for this component.
 		/// </summary>
