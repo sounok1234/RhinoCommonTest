@@ -37,30 +37,35 @@ namespace SplitCurves.Plugin
 			go.GetMultiple(1, 1);
 			var closedCurve = go.Object(0).Curve();
 			doc.Objects.UnselectAll();
-			/*
-			var go2 = new Rhino.Input.Custom.GetObject();
-			go2.SetCommandPrompt("Select curves to divide closed curve");
-			go2.GeometryFilter = Rhino.DocObjects.ObjectType.Curve;
-			go2.GetMultiple(1, 1000000);
-			var curves = new List<Curve>();
-			for (int i = 0; i < go2.ObjectCount; i++)
-			{
-				curves.Add(go2.Object(i).Curve());
-			}
-			*/
 
 			//Point3d point;
 			//Rhino.Input.RhinoGet.GetPoint("Enter the number of divisions for the closed curve", false, out point);
 			//doc.Objects.AddPoint(point);
 			//doc.Views.Redraw();
-			Line line;
-			Rhino.Input.RhinoGet.GetLine(out line); 
-			doc.Objects.UnselectAll();
-			Line line2;
-			Rhino.Input.RhinoGet.GetLine(out line2);
+			int _int = 2;
+			Rhino.Input.RhinoGet.GetInteger("Enter the number of cutters/lines needed. You will be prompted to draw that many lines across the curve to divide", false, ref _int);
 			var curves = new List<Line>();
-			curves.Add(line);
-			curves.Add(line2);
+			for (int i = 0; i < _int; i++)
+			{
+				int layer_index;
+				Layer layer = doc.Layers.FindName("Cutter");
+				if (layer == null)
+				{
+					layer_index = doc.Layers.Add("Cutter", System.Drawing.Color.Blue);
+					RhinoDoc.ActiveDoc.Layers.SetCurrentLayerIndex(layer_index, true);
+				} else
+                {
+					layer_index = layer.Index;
+					RhinoDoc.ActiveDoc.Layers.SetCurrentLayerIndex(layer_index, true);
+				}
+				
+				Line line;
+				Rhino.Input.RhinoGet.GetLine(out line);
+				curves.Add(line);
+				doc.Objects.AddLine(line);
+				doc.Objects.UnselectAll();
+			}
+			doc.Views.Redraw();
 
 			const double intersection_tolerance = 0.001;
 			const double overlap_tolerance = 0.0;
@@ -87,9 +92,22 @@ namespace SplitCurves.Plugin
 
 			foreach (Curve split in splitCurves)
 			{
+				int layer_index;
+				Layer layer = doc.Layers.FindName("SplitCurves");
+				if (layer == null)
+				{
+					layer_index = doc.Layers.Add("SplitCurves", System.Drawing.Color.Red);
+					RhinoDoc.ActiveDoc.Layers.SetCurrentLayerIndex(layer_index, true);
+				}
+				else
+				{
+					layer_index = layer.Index;
+					RhinoDoc.ActiveDoc.Layers.SetCurrentLayerIndex(layer_index, true);
+				}
+
 				doc.Objects.AddCurve(split);
 			}
-			//doc.Objects.Delete(go);
+
 			doc.Views.Redraw();
 
 			return Result.Success;
