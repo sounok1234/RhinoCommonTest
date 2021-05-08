@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SplitCurves.Lib;
@@ -27,12 +26,14 @@ namespace SplitCurves.Component
 			  "Geometry", "Curves")
 		{
 		}
-		
-		/// <summary>
-		/// Registers all the input parameters for this component.
-		/// </summary>
-		protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
+        public override GH_Exposure Exposure { get { return GH_Exposure.primary; } }
+        /// <summary>
+        /// Registers all the input parameters for this component.
+        /// </summary>
+        protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
 		{
+			pManager.AddCurveParameter("ClosedCurve", "CC", "Curve to divide", GH_ParamAccess.item);
+			pManager.AddPlaneParameter("Planes", "P", "Planes as cutters", GH_ParamAccess.list); 
 		}
 		
 		/// <summary>
@@ -40,6 +41,7 @@ namespace SplitCurves.Component
 		/// </summary>
 		protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
 		{
+			pManager.AddCurveParameter("Curves", "C", "Sub loop curves", GH_ParamAccess.list);
 		}
 
 		/// <summary>
@@ -49,6 +51,22 @@ namespace SplitCurves.Component
 		/// to store data in output parameters.</param>
 		protected override void SolveInstance(IGH_DataAccess DA)
 		{
+			
+			Curve curve = null;
+			var planes = new List<Plane>();
+
+			if (!DA.GetData(0, ref curve)) { return; }
+			if (!DA.GetDataList(1, planes)) { return; } 
+
+			/*
+			if (!curve.IsValid) { return; }
+			if (!planes.IsValid) { return; }
+			*/
+
+			var output = Curves.DivideCurve(curve, planes);
+
+			DA.SetDataList(0, output);
+
 		}
 
 		/// <summary>

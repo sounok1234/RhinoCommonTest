@@ -35,7 +35,8 @@ namespace SplitCurves.Lib
 					
                 }
             }
-			return edges;
+			List<Curve> sorted = edges.OrderBy(x => AreaMassProperties.Compute(x).Centroid).ToList(); 
+			return sorted;
 		}
 
 	}
