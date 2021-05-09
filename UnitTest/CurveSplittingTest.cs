@@ -47,7 +47,7 @@ namespace SplitCurves.Testing
 				splitAreas += crvArea;
 			}
 
-			Assert.Equal<double>(Math.Round(boundaryArea, 0), Math.Round(splitAreas, 0));
+			Assert.Equal<double>(Math.Round(boundaryArea, 0), Math.Round(splitAreas, 0)); 
 		}
 
 	}
