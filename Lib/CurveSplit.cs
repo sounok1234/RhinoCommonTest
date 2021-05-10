@@ -15,6 +15,12 @@ namespace SplitCurves.Lib
 			var breps = Brep.CreatePlanarBreps(boundary, 0.01);
 
 			var planeSurfaces = new List<Brep>();
+
+			if (planes.Count == 0)
+            {
+				throw new ArgumentException("The function requires atleast one plane", "planes");
+            }
+
 			foreach (Plane plane in planes)
 			{
 				PlaneSurface surface = PlaneSurface.CreateThroughBox(plane, breps[0].GetBoundingBox(false));
@@ -39,5 +45,6 @@ namespace SplitCurves.Lib
 			return sorted;
 		}
 
-	}
+       
+    }
 }

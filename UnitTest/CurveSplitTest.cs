@@ -18,23 +18,14 @@ namespace SplitCurves.Testing
         public void NewTest()
         {
             // Arrange
+            List<Plane> planes = new List<Plane>();
+
             Rectangle3d rect = new Rectangle3d(Plane.WorldXY, 5000, 1000);
-            Curve Boundary = rect.ToNurbsCurve();
+            Curve boundary = rect.ToNurbsCurve();
 
-            List<Plane> splitPlanes = new List<Plane>();
-
-            for (int i = 1; i < 5; i++)
-            {
-                Point3d planeOrigin = new Point3d(i * 500, 0, 0);
-                Plane splitPlane = new Plane(planeOrigin, Vector3d.XAxis);
-                splitPlanes.Add(splitPlane);
-            }
-
-            // Act
-            List<Curve> splitCurves = Curves.DivideCurve(Boundary, splitPlanes);
-
-            // Assert
-            Assert.NotEmpty(splitPlanes); 
+            // Act + Assert
+            Exception ex = Assert.Throws<ArgumentException>("planes", () => Curves.DivideCurve(boundary, planes));
+            Assert.Contains("atleast one", ex.Message);
 
         }
 
